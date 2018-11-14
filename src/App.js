@@ -1,25 +1,33 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import SampleMap from './SampleMap';
 
 class App extends Component {
+  state = {};
+
+  getDevicesLocation = async () => {
+    try {
+      const devices = await fetch('http://localhost:7000/location').then(res => {
+        return res.json();
+      });
+      this.setState({ devices });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  componentDidMount() {
+    this.getDevicesLocation();
+  }
+
   render() {
+    const { devices } = this.state;
+    if (!devices) return null;
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <header className="App-header" />
+        <main>
+          <SampleMap devices={devices} />
+        </main>
       </div>
     );
   }
