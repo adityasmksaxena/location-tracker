@@ -1,10 +1,10 @@
 import React from 'react';
 
-const Marker = ({ onClick, $hover }) => (
+const Marker = ({ curLocationMarker, onClick, $hover }) => (
   <button
     className="marker"
     style={
-      $hover
+      $hover || curLocationMarker
         ? {
             backgroundColor: 'green',
           }

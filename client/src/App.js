@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Header from './components/Header';
 import Marker from './components/Marker';
 import GoogleMapReact from 'google-map-react';
+import keys from './config/keys';
 
 const getMapBounds = (map, maps, places) => {
   const bounds = new maps.LatLngBounds();
@@ -23,9 +24,11 @@ const bindResizeListener = (map, maps, bounds) => {
 };
 
 const apiIsLoaded = (map, maps, places) => {
-  const bounds = getMapBounds(map, maps, places);
-  map.fitBounds(bounds);
-  bindResizeListener(map, maps, bounds);
+  if (map && maps) {
+    const bounds = getMapBounds(map, maps, places);
+    map.fitBounds(bounds);
+    bindResizeListener(map, maps, bounds);
+  }
 };
 
 class App extends Component {
@@ -38,7 +41,7 @@ class App extends Component {
   updateDeviceLocation = async newLocations => {
     try {
       const { selectedDevice: device } = this.state;
-      const location = await fetch(`http://localhost:7000/locations/${device}`).then(res =>
+      const location = await fetch(`http://localhost:5000/locations/${device}`).then(res =>
         res.json()
       );
       const stateLocations = this.state.locations;
@@ -48,11 +51,11 @@ class App extends Component {
         ? stateLocations
         : [...stateLocations, location];
       // const center = location;
-      let zoom = locations.length === 1 ? 16 : 15;
+      // let zoom = locations.length === 1 ? 16 : 15;
       this.setState({
         locations,
         // center,
-        zoom,
+        // zoom,
       });
       apiIsLoaded(this.map, this.maps, locations);
     } catch (e) {
@@ -76,7 +79,7 @@ class App extends Component {
   getDevicesLocation = async () => {
     clearInterval(this.interval);
     try {
-      const devicesLocationObj = await fetch('http://localhost:7000/locations').then(res =>
+      const devicesLocationObj = await fetch('http://localhost:5000/locations').then(res =>
         res.json()
       );
       const deviceList = Object.keys(devicesLocationObj);
@@ -103,14 +106,15 @@ class App extends Component {
   render() {
     const { locations, deviceList, center, zoom = 9, selectedDevice } = this.state;
     if (!locations || !locations.length) return null;
-    console.log(locations);
-    const markers = locations.map(place => {
+    // const key =
+    const markers = locations.map((place, i) => {
       const { lat, lng, device } = place;
       return (
         <Marker
           key={`${lat}${lng}`}
           lat={lat}
           lng={lng}
+          curLocationMarker={selectedDevice !== ' ' && i === locations.length - 1}
           onClick={() => this.handleDeviceSelection(device)}
         />
       );
@@ -128,7 +132,7 @@ class App extends Component {
           <div id="map">
             <GoogleMapReact
               bootstrapURLKeys={{
-                key: 'AIzaSyCHheoSZqzgkrd5t7xkJdwWlbH1G9ImZpg',
+                key: keys.GOOGLE_MAP_KEY,
               }}
               defaultZoom={9}
               zoom={zoom}
