@@ -4,7 +4,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 
 const Marker = ({ curLocationMarker, onClick, $hover, text }) =>
   curLocationMarker ? (
-    <Tooltip title={text ? text.toUpperCase() : ''} placement="top">
+    <Tooltip title={text && text !== ' ' ? text.toUpperCase() : ''} placement="top">
       <LocationOn
         className="marker"
         onClick={onClick}

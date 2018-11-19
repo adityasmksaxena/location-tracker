@@ -8,6 +8,7 @@ app.use(function(req, res, next) {
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   next();
 });
+const getCoordinatesObj = (lat, lng) => ({ lat, lng });
 const Location = {
   device1: [
     { lat: 28.4911392, lng: 77.0808899 },
@@ -15,9 +16,21 @@ const Location = {
     { lat: 28.4927009, lng: 77.0825111 },
     { lat: 28.4942424, lng: 77.083984 },
     { lat: 28.49534, lng: 77.083435 },
+    { lat: 28.496297, lng: 77.080925 },
     { lat: 28.497469, lng: 77.080552 },
+    { lat: 28.498682, lng: 77.080945 },
+    { lat: 28.50004, lng: 77.080248 },
+    { lat: 28.500766, lng: 77.079347 },
+    getCoordinatesObj(28.500687, 77.077619),
   ],
-  device2: [{ lat: 28.436003, lng: 77.010262 }],
+  device2: [
+    { lat: 28.436003, lng: 77.010262 },
+    getCoordinatesObj(28.439899, 77.013344),
+    getCoordinatesObj(28.442691, 77.015646),
+    getCoordinatesObj(28.445049, 77.017698),
+    getCoordinatesObj(28.448398, 77.022387),
+    getCoordinatesObj(28.446726, 77.029383),
+  ],
   device3: [{ lat: 28.502321, lng: 77.070823 }],
   device4: [{ lat: 28.414582, lng: 77.046207 }],
   device5: [{ lat: 28.449075, lng: 77.122213 }],
@@ -44,7 +57,6 @@ app.get('/locations/:id', async (req, res) => {
   if (deviceLocationList) {
     if (lastDeviceId !== id) i = 0;
     if (deviceLocationList.length > i) {
-      // console.log(id, deviceLocationList, i);
       lastDeviceId = id;
       res.send(deviceLocationList[i]);
       i++;

@@ -104,7 +104,7 @@ class App extends Component {
     if (!locations || !locations.length) return null;
     // const key =
     const markers = locations.map((place, i) => {
-      const { lat, lng, device } = place;
+      const { lat, lng, device = ' ' } = place;
       return (
         <Marker
           key={`${lat}${lng}`}
