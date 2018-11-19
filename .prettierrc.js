@@ -1,5 +1,5 @@
 const prettierRules = {
-  printWidth: 120,
+  printWidth: 100,
   singleQuote: true,
   trailingComma: 'es5',
 };

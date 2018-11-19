@@ -16,11 +16,18 @@ const Location = {
     { lat: 28.49534, lng: 77.083435 },
     { lat: 28.497469, lng: 77.080552 },
   ],
-  device2: [{ lat: 28.4917986, lng: 77.0816072 }],
+  device2: [{ lat: 28.436003, lng: 77.010262 }],
   device3: [{ lat: 28.502321, lng: 77.070823 }],
+  device4: [{ lat: 28.414582, lng: 77.046207 }],
+  device5: [{ lat: 28.449075, lng: 77.122213 }],
+  device6: [{ lat: 28.516813, lng: 77.04595 }],
+  device7: [{ lat: 28.437721, lng: 77.067514 }],
+  device8: [{ lat: 28.449061, lng: 77.063736 }],
+  device9: [{ lat: 28.477491, lng: 77.069802 }],
 };
 // Location Related Routes
-app.get('/location', async (req, res) => {
+app.get('/locations', async (req, res) => {
+  lastDeviceId = null;
   const response = Object.keys(Location).reduce((acc, key) => {
     acc[key] = Location[key][0];
     return acc;
@@ -30,13 +37,20 @@ app.get('/location', async (req, res) => {
 
 let i = 0;
 let lastDeviceId = null;
-app.get('/location/:id', async (req, res) => {
+app.get('/locations/:id', async (req, res) => {
   const { id } = req.params;
-  const device = Location[id];
-  if (device) {
+  const deviceLocationList = Location[id];
+  if (deviceLocationList) {
     if (lastDeviceId !== id) i = 0;
-    res.send(device[i]);
-    i++;
+    if (deviceLocationList.length > i) {
+      // console.log(id, deviceLocationList, i);
+      lastDeviceId = id;
+      res.send(deviceLocationList[i]);
+      i++;
+    } else {
+      // if (id === 'device4') res.send({status: 'offline'})
+      res.send(deviceLocationList[i - 1]);
+    }
   }
   res.status(404).send();
 });
