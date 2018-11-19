@@ -41,9 +41,7 @@ class App extends Component {
   updateDeviceLocation = async newLocations => {
     try {
       const { selectedDevice: device } = this.state;
-      const location = await fetch(`http://localhost:5000/locations/${device}`).then(res =>
-        res.json()
-      );
+      const location = await fetch(`/locations/${device}`).then(res => res.json());
       const stateLocations = this.state.locations;
       const locations = newLocations
         ? [location]
@@ -79,9 +77,7 @@ class App extends Component {
   getDevicesLocation = async () => {
     clearInterval(this.interval);
     try {
-      const devicesLocationObj = await fetch('http://localhost:5000/locations').then(res =>
-        res.json()
-      );
+      const devicesLocationObj = await fetch('/locations').then(res => res.json());
       const deviceList = Object.keys(devicesLocationObj);
       const locations = deviceList.map(device => ({
         ...devicesLocationObj[device],
