@@ -23,7 +23,7 @@
     "server": "nodemon src/server.js",
     "client": "cd client && yarn start",
     "dev": "concurrently \"yarn server\" \"yarn client\"",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false cd client && yarn && yarn build",
+    "heroku-postbuild": "cd client && yarn && yarn build",
     "format": "prettier --write \"src/**/*.{js, jsx, css, json}\""
   },
   "repository": {
