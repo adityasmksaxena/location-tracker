@@ -1,17 +1,18 @@
 import React from 'react';
+import LocationOn from '@material-ui/icons/LocationOn';
+import Tooltip from '@material-ui/core/Tooltip';
 
-const Marker = ({ curLocationMarker, onClick, $hover }) => (
-  <button
-    className="marker"
-    style={
-      $hover || curLocationMarker
-        ? {
-            backgroundColor: 'green',
-          }
-        : {}
-    }
-    onClick={onClick}
-  />
-);
+const Marker = ({ curLocationMarker, onClick, $hover, text }) =>
+  curLocationMarker ? (
+    <Tooltip title={text ? text.toUpperCase() : ''} placement="top">
+      <LocationOn
+        className="marker"
+        onClick={onClick}
+        style={$hover ? { cursor: 'pointer' } : {}}
+      />
+    </Tooltip>
+  ) : (
+    <button className="marker-old" />
+  );
 
 export default Marker;

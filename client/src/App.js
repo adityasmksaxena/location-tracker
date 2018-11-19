@@ -110,7 +110,8 @@ class App extends Component {
           key={`${lat}${lng}`}
           lat={lat}
           lng={lng}
-          curLocationMarker={selectedDevice !== ' ' && i === locations.length - 1}
+          text={device}
+          curLocationMarker={selectedDevice === ' ' || i === locations.length - 1}
           onClick={() => this.handleDeviceSelection(device)}
         />
       );
